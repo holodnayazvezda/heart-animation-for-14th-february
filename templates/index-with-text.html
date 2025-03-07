@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>💗</title>
+</head>
+<style>
+
+body {
+    background: #0b1522;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.root {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.heart {
+    height: 200px;
+    width: 200px;
+    background: #f20044;
+    position: absolute;
+    z-index: 1;
+    transform: rotate(-45deg);
+    box-shadow: -10px 10px 90px #f20044;
+    animation: heart 1.3s linear infinite;
+    border-radius: 15px;
+}
+
+@keyframes heart{
+    0% {
+        transform: rotate(-45deg) scale(1.5);
+    }
+    60% {
+        transform: rotate(-45deg) scale(1.0);
+    }
+    90% {
+        transform: rotate(-45deg) scale(0.5);
+    }
+}
+
+.heart:before{
+    content: "";
+    position: absolute;
+    height: 200px;
+    width: 200px;
+    background: #f20044;
+    top: -50%;
+    border-radius: 200px;
+    box-shadow: -10px -10px 90px #f20044;
+}
+
+.heart:after{
+    content: "";
+    position: absolute;
+    height: 200px;
+    width: 200px;
+    background: #f20044;
+    right: -50%;
+    border-radius: 200px;
+    box-shadow: 10px 10px 90px #f20044;
+}
+
+.youtext {
+    position: absolute;
+    z-index: 2;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 45px;
+    color: #f665c3;
+    display: block;
+    text-shadow: #549fdb 3px 0 20px, #ff65c9 -3px 0 20px;
+    padding-bottom: 40px;
+}
+
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-corner {
+    position: fixed;
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    z-index: 1;
+}
+
+.image-corner:hover {
+    transform: scale(1.2);
+}
+
+.top-left {
+    top: 20px;
+    left: 20px;
+}
+
+.top-right {
+    top: 20px;
+    right: 20px;
+}
+
+.bottom-left {
+    bottom: 20px;
+    left: 20px;
+}
+
+.bottom-right {
+    bottom: 20px;
+    right: 20px;
+}
+
+.emoji {
+    position: fixed;
+    font-size: 20px;
+    animation: float 3s forwards; /* Запускаем анимацию только один раз */
+    opacity: 1;
+    z-index: 0;
+}
+
+.floating-text {
+    position: fixed;
+    font-size: 24px;
+    color: #f665c3;
+    font-family: Arial, Helvetica, sans-serif;
+    animation: floatText 3s forwards; /* Анимация только один раз */
+    opacity: 1;
+    z-index: 0;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    90% {
+        transform: translateY(-20px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 0; /* Плавное исчезновение */
+    }
+}
+
+@keyframes floatText {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    90% {
+        transform: translateY(-15px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 0; /* Плавное исчезновение */
+    }
+}
+
+</style>
+<body>
+    <div class="root">
+        <div class="container">
+            <div class="heart"></div>
+        </div>
+        <div class="container">
+             <p class="youtext">Pauline</p>
+        </div>
+
+        <!-- Фотографии по углам -->
+        <img class="image-corner top-left" src="static/images/1.jpg" alt="Фото 1">
+        <img class="image-corner top-right" src="static/images/2.jpg" alt="Фото 2">
+        <img class="image-corner bottom-left" src="static/images/3.jpg" alt="Фото 3">
+        <img class="image-corner bottom-right" src="static/images/4.jpg" alt="Фото 4">
+    </div>
+
+    <script>
+        const emojis = ['💓', '❤️', '💕', '❤️‍🔥', '❣️', '💞', '💗', '💖', '💘', '💝'];
+        const textOptions = ["Люблю тебя", "Ты лучшая", "Все будет хорошо", "Самая красивая", "Милая"];
+        const body = document.body;
+        const maxEmojis = 70; // Максимальное количество эмодзи на экране
+        let currentEmojis = 0;
+        const maxTexts = 3; // Максимальное количество одновременно видимых текстов
+        const textElements = [];
+
+        function getRandom(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function createEmoji() {
+            if (currentEmojis < maxEmojis) {
+                const emoji = document.createElement('div');
+                emoji.classList.add('emoji');
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = getRandom(0, 100) + 'vw';
+                emoji.style.top = getRandom(0, 100) + 'vh';
+                emoji.style.fontSize = getRandom(20, 40) + 'px';
+                emoji.style.animationDuration = getRandom(4, 8) + 's';
+
+                body.appendChild(emoji);
+                currentEmojis++;
+
+                emoji.addEventListener('animationend', () => {
+                    emoji.remove();
+                    currentEmojis--;
+                });
+            }
+        }
+
+        function createTextElement() {
+            const textElement = document.createElement('div');
+            textElement.classList.add('floating-text');
+            body.appendChild(textElement);
+            return textElement;
+        }
+
+        // Создаем пул текстовых элементов при загрузке страницы
+        for (let i = 0; i < maxTexts; i++) {
+            textElements.push(createTextElement());
+        }
+
+         function updateTextElement() {
+            const textElement = textElements[Math.floor(Math.random() * maxTexts)]; // Выбираем случайный элемент из пула
+            textElement.textContent = textOptions[Math.floor(Math.random() * textOptions.length)];
+            textElement.style.left = getRandom(0, 100) + 'vw';
+            textElement.style.top = getRandom(0, 100) + 'vh';
+            textElement.style.fontSize = getRandom(18, 28) + 'px';
+            textElement.style.fontFamily = 'Arial, Helvetica, sans-serif';
+            textElement.style.animationDuration = getRandom(2, 4) + 's';
+
+            textElement.addEventListener('animationend', () => {
+                textElement.remove();
+            });
+            textElement.style.animation = 'none';
+            void textElement.offsetWidth;
+            textElement.style.animation = 'floatText ' + getRandom(2, 4) + 's forwards'; // Добавлено forwards
+        }
+
+
+        setInterval(createEmoji, 150);
+        setInterval(updateTextElement, 700);
+    </script>
+</body>
+</html>
